@@ -9,7 +9,7 @@ import {
   PartiQLQueryServer,
   QueryRequest,
   QueryResponse,
-} from "../models/PartiQL";
+} from "../models/parti_ql";
 
 import queryService from "../service/QueryService";
 

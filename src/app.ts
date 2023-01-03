@@ -5,7 +5,7 @@ dotenv.config();
 import * as path from "path";
 
 import { Server, ServerCredentials } from "@grpc/grpc-js";
-import { PartiQLQueryService } from "./models/PartiQL";
+import { PartiQLQueryService } from "./models/parti_ql";
 import { QueryServer } from "./server/QueryServer";
 import { addReflection } from "grpc-server-reflection";
 

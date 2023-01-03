@@ -1,4 +1,4 @@
-import { Query, QueryResponse, Response } from "../models/PartiQL";
+import { Query, QueryResponse, Response } from "../models/parti_ql";
 
 import dynamoHelper from "../helpers/DynamoHelper";
 import queryHelper from "../helpers/QueryHelper";
@@ -26,8 +26,9 @@ class QueryService {
       throw new Error("Invalid query");
     }
 
+    // TODO: Update "Response.items" to be `repeated PartiQL Value` and not google.protobuf.Struct
     const response: Response = await dynamoHelper.executeQuery(sql);
-    console.log("Response", JSON.stringify(response));
+    console.log("\n", response, "\n");
     const queryResponse: QueryResponse = {
       kind: {
         $case: "response",

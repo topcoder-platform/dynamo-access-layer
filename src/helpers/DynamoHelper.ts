@@ -4,7 +4,7 @@ import {
 } from "@aws-sdk/client-dynamodb";
 
 import { unmarshall } from "@aws-sdk/util-dynamodb";
-import { Response } from "../models/PartiQL";
+import { Response } from "../models/parti_ql";
 
 class DynamoHelper {
   private client: DynamoDBClient;
@@ -17,7 +17,7 @@ class DynamoHelper {
   }
 
   public async executeQuery(statement: string): Promise<Response> {
-    console.log("Statement: ", statement);
+    console.log(statement);
 
     const command = new ExecuteStatementCommand({
       Statement: statement,
