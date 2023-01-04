@@ -8,6 +8,8 @@ class QueryService {
     let sql: string | null = null;
     const queryKind = query.kind;
 
+    console.log("queryKind", queryKind);
+
     switch (queryKind?.$case) {
       case "select":
         sql = queryHelper.getSelectQuery(queryKind.select);

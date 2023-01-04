@@ -17,7 +17,7 @@
     "@aws-sdk/util-dynamodb": "^3.183.0",
     "@grpc/grpc-js": "^1.7.1",
     "grpc-server-reflection": "^0.1.5",
-    "topcoder-interface": "github:topcoder-platform/plat-interface-definition#v0.0.1",
+    "topcoder-interface": "github:topcoder-platform/plat-interface-definition#v0.0.3",
     "dotenv": "^16.0.3",
     "lodash": "^4.17.21"
   },

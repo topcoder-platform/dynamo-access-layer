@@ -12,8 +12,6 @@ import {
   UpdateType,
 } from "../models/parti_ql";
 
-import { Value as WellKnowTypeValue } from "../models/google/protobuf/struct";
-
 class QueryHelper {
   public getSelectQuery(query: SelectQuery): string {
     const { table, index, attributes, filters } = query;
@@ -66,7 +64,7 @@ class QueryHelper {
 
   private toValue(value: Value): string {
     const valueKind = value.kind;
-    console.log("valueKind", value);
+
     switch (valueKind?.$case) {
       case "numberValue":
         return valueKind.numberValue.toString();
@@ -104,17 +102,17 @@ class QueryHelper {
 
       if (type === UpdateType.UPDATE_TYPE_LIST_APPEND) {
         expression += `${attribute} = list_append(${attribute}, ${this.toValue(
-          value!
+          value
         )})`;
       }
       if (type === UpdateType.UPDATE_TYPE_SET_ADD) {
         expression += `${attribute} = set_add(${attribute}, ${this.toValue(
-          value!
+          value
         )})`;
       }
       if (type === UpdateType.UPDATE_TYPE_SET_DELETE) {
         expression += `${attribute} = set_delete(${attribute}, ${this.toValue(
-          value!
+          value
         )})`;
       }
       if (type === UpdateType.UPDATE_TYPE_VALUE) {
