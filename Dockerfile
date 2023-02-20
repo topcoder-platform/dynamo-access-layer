@@ -14,6 +14,7 @@ WORKDIR /usr/tc-dynamo-dal
 COPY --from=ts-compile /usr/tc-dynamo-dal/yarn*.lock ./
 COPY --from=ts-compile /usr/tc-dynamo-dal/package*.json ./
 COPY --from=ts-compile /usr/tc-dynamo-dal/dist ./
+COPY --from=ts-compile /usr/tc-dynamo-dal/.npmrc ./
 RUN yarn install --frozen-lockfile --ignore-scripts --production=true
 
 FROM gcr.io/distroless/nodejs:18
