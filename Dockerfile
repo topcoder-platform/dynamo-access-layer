@@ -18,6 +18,8 @@ FROM gcr.io/distroless/nodejs:18
 WORKDIR /usr/tc-dynamo-dal
 COPY --from=ts-remove /usr/tc-dynamo-dal ./
 USER 1000
+ENV GRPC_SERVER_PORT=50052
+ENV GRPC_SERVER_HOST=localhost
 CMD ["app.js"]
 
 
