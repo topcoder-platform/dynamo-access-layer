@@ -19,17 +19,13 @@ jobs:
             git clone -b v1.4 https://github.com/topcoder-platform/tc-deploy-scripts ../${OUT_DIR}
             cp ./../${OUT_DIR}/awsconfiguration.sh .
       - run:
-          name: "Authenticate with AWS CodeArtifact"
+          name: "Authenticate with AWS CodeArtifact and Build Docker Image"
           command: |
             ./awsconfiguration.sh ${CODEARTIFACT_ENV}
             source awsenvconf
             aws codeartifact login --tool npm --repository topcoder-framework --domain topcoder --domain-owner $AWS_ACCOUNT_ID --region $AWS_REGION --namespace @topcoder-framework
+            cp ~/.npmrc .
             rm -f awsenvconf
-            ls -la ~/.npmrc
-      - run:
-          name: "Build docker image"
-          command: |
-            ls -la ~/.npmrc
             docker build -t ${SERVICE_NAME}:${CIRCLE_SHA1} .
       - run:
           name: "Set AWS environment variables"

@@ -6,7 +6,7 @@
   "scripts": {
     "build:proto": "node bin/proto",
     "build:app": "rimraf dist && tsc -b",
-    "build": "npm run build:proto && npm run build:app",
+    "build": "yarn build:proto && yarn build:app",
     "start": "ts-node-dev --respawn --transpile-only src/app.ts"
   },
   "keywords": [],
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.11.17",
+    "rimraf": "^4.1.2",
     "ts-node-dev": "^2.0.0",
     "ts-proto": "^1.126.1",
     "typescript": "^4.9.4"

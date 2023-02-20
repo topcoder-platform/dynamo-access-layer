@@ -1,11 +1,12 @@
 FROM node:18.14.1-alpine3.17 as ts-compile
 WORKDIR /usr/tc-dynamo-dal
 COPY yarn*.lock ./
+COPY package*.json ./
 COPY tsconfig*.json ./
-COPY ~/.npmrc ./
-RUN yarn
+COPY .npmrc ./
+RUN yarn install
 COPY . ./
-RUN yarn run build:app
+RUN yarn build:app
 
 FROM node:18.14.1-alpine3.17 as ts-remove
 WORKDIR /usr/tc-dynamo-dal
