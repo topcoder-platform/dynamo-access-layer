@@ -25,9 +25,11 @@ jobs:
             source awsenvconf
             aws codeartifact login --tool npm --repository topcoder-framework --domain topcoder --domain-owner $AWS_ACCOUNT_ID --region $AWS_REGION
             rm -f awsenvconf
+            ls ~/.
       - run:
           name: "Build docker image"
           command: |
+            ls ~/.
             docker build -t ${SERVICE_NAME}:${CIRCLE_SHA1} .
       - run:
           name: "Set AWS environment variables"
