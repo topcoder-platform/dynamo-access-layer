@@ -4,13 +4,14 @@ COPY yarn*.lock ./
 COPY package*.json ./
 COPY tsconfig*.json ./
 COPY .npmrc ./
-RUN yarn install
+RUN yarn
 COPY . ./
 RUN yarn build:app
 
 FROM node:18.14.1-alpine3.17 as ts-remove
 WORKDIR /usr/tc-dynamo-dal
 COPY --from=ts-compile /usr/tc-dynamo-dal/yarn*.lock ./
+COPY --from=ts-compile /usr/tc-dynamo-dal/package*.json ./
 COPY --from=ts-compile /usr/tc-dynamo-dal/dist ./
 RUN yarn --omit=dev
 
