@@ -62,7 +62,10 @@ class QueryHelper {
     return `'${value}'`;
   }
 
-  private toValue(value: Value): string {
+  private toValue(value: Value | undefined): string {
+    if (value == null) {
+      throw new Error("Invalid value");
+    }
     const valueKind = value.kind;
 
     switch (valueKind?.$case) {

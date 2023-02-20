@@ -7,9 +7,6 @@ class QueryService {
   public async query(query: Query): Promise<QueryResponse> {
     let sql: string | null = null;
     const queryKind = query.kind;
-
-    console.log("queryKind", queryKind);
-
     switch (queryKind?.$case) {
       case "select":
         sql = queryHelper.getSelectQuery(queryKind.select);
@@ -30,7 +27,6 @@ class QueryService {
 
     // TODO: Update "Response.items" to be `repeated PartiQL Value` and not google.protobuf.Struct
     const response: Response = await dynamoHelper.executeQuery(sql);
-    console.log("\n", response, "\n");
     const queryResponse: QueryResponse = {
       kind: {
         $case: "response",

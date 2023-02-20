@@ -20,9 +20,6 @@ class QueryServer implements PartiQLQueryServer {
     call: ServerUnaryCall<QueryRequest, QueryResponse>,
     callback: sendUnaryData<QueryResponse>
   ): Promise<void> {
-    console.log("Incoming metadata: ", call.metadata.getMap());
-    console.log("Incoming request: ", JSON.stringify(call.request));
-
     switch (call.request.kind?.$case) {
       case "query":
         const response = await queryService.query(call.request.kind.query);

@@ -32,6 +32,10 @@ const protoConfig = [
   `--ts_proto_opt=oneof=unions`,
   `--ts_proto_opt=addGrpcMetadata=true`,
   `--ts_proto_opt=outputClientImpl=false`,
+  `--ts_proto_opt=useDate=string`,
+  `--ts_proto_opt=Mcommon/common.proto=@topcoder-framework/lib-common`,
+  `--ts_proto_opt=Mgoogle/protobuf/struct.proto=@topcoder-framework/lib-common`,
+  `--ts_proto_opt=Mgoogle/protobuf/timestamp.proto=@topcoder-framework/lib-common`,
   `--descriptor_set_out ${PROTO_REFLECTIONS}`,
   `--include_imports`,
 ];

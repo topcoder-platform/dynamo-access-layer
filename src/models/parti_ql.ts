@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { handleUnaryCall, UntypedServiceImplementation } from "@grpc/grpc-js";
+import { ListValue, NullValue, nullValueFromJSON, nullValueToJSON, Struct } from "@topcoder-framework/lib-common";
 import _m0 from "protobufjs/minimal";
-import { ListValue, NullValue, nullValueFromJSON, nullValueToJSON, Struct } from "./google/protobuf/struct";
 
 export enum DataType {
   DATA_TYPE_UNSPECIFIED = 0,
@@ -545,6 +545,10 @@ export const StringSet = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<StringSet>, I>>(base?: I): StringSet {
+    return StringSet.fromPartial(base ?? {});
+  },
+
   fromPartial<I extends Exact<DeepPartial<StringSet>, I>>(object: I): StringSet {
     const message = createBaseStringSet();
     message.values = object.values?.map((e) => e) || [];
@@ -605,6 +609,10 @@ export const NumberSet = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<NumberSet>, I>>(base?: I): NumberSet {
+    return NumberSet.fromPartial(base ?? {});
+  },
+
   fromPartial<I extends Exact<DeepPartial<NumberSet>, I>>(object: I): NumberSet {
     const message = createBaseNumberSet();
     message.values = object.values?.map((e) => e) || [];
@@ -618,32 +626,34 @@ function createBaseValue(): Value {
 
 export const Value = {
   encode(message: Value, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.kind?.$case === "boolean") {
-      writer.uint32(8).bool(message.kind.boolean);
-    }
-    if (message.kind?.$case === "binary") {
-      writer.uint32(18).bytes(message.kind.binary);
-    }
-    if (message.kind?.$case === "listValue") {
-      ListValue.encode(ListValue.wrap(message.kind.listValue), writer.uint32(26).fork()).ldelim();
-    }
-    if (message.kind?.$case === "mapValue") {
-      Struct.encode(Struct.wrap(message.kind.mapValue), writer.uint32(34).fork()).ldelim();
-    }
-    if (message.kind?.$case === "nullValue") {
-      writer.uint32(40).int32(message.kind.nullValue);
-    }
-    if (message.kind?.$case === "numberValue") {
-      writer.uint32(49).double(message.kind.numberValue);
-    }
-    if (message.kind?.$case === "numberSetValue") {
-      NumberSet.encode(message.kind.numberSetValue, writer.uint32(58).fork()).ldelim();
-    }
-    if (message.kind?.$case === "stringValue") {
-      writer.uint32(66).string(message.kind.stringValue);
-    }
-    if (message.kind?.$case === "stringSetValue") {
-      StringSet.encode(message.kind.stringSetValue, writer.uint32(74).fork()).ldelim();
+    switch (message.kind?.$case) {
+      case "boolean":
+        writer.uint32(8).bool(message.kind.boolean);
+        break;
+      case "binary":
+        writer.uint32(18).bytes(message.kind.binary);
+        break;
+      case "listValue":
+        ListValue.encode(ListValue.wrap(message.kind.listValue), writer.uint32(26).fork()).ldelim();
+        break;
+      case "mapValue":
+        Struct.encode(Struct.wrap(message.kind.mapValue), writer.uint32(34).fork()).ldelim();
+        break;
+      case "nullValue":
+        writer.uint32(40).int32(message.kind.nullValue);
+        break;
+      case "numberValue":
+        writer.uint32(49).double(message.kind.numberValue);
+        break;
+      case "numberSetValue":
+        NumberSet.encode(message.kind.numberSetValue, writer.uint32(58).fork()).ldelim();
+        break;
+      case "stringValue":
+        writer.uint32(66).string(message.kind.stringValue);
+        break;
+      case "stringSetValue":
+        StringSet.encode(message.kind.stringSetValue, writer.uint32(74).fork()).ldelim();
+        break;
     }
     return writer;
   },
@@ -730,6 +740,10 @@ export const Value = {
     message.kind?.$case === "stringSetValue" &&
       (obj.stringSetValue = message.kind?.stringSetValue ? StringSet.toJSON(message.kind?.stringSetValue) : undefined);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<Value>, I>>(base?: I): Value {
+    return Value.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<Value>, I>>(object: I): Value {
@@ -831,6 +845,10 @@ export const Attribute = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<Attribute>, I>>(base?: I): Attribute {
+    return Attribute.fromPartial(base ?? {});
+  },
+
   fromPartial<I extends Exact<DeepPartial<Attribute>, I>>(object: I): Attribute {
     const message = createBaseAttribute();
     message.name = object.name ?? "";
@@ -895,6 +913,10 @@ export const Filter = {
     message.operator !== undefined && (obj.operator = operatorToJSON(message.operator));
     message.value !== undefined && (obj.value = message.value ? Value.toJSON(message.value) : undefined);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<Filter>, I>>(base?: I): Filter {
+    return Filter.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<Filter>, I>>(object: I): Filter {
@@ -988,6 +1010,10 @@ export const SelectQuery = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<SelectQuery>, I>>(base?: I): SelectQuery {
+    return SelectQuery.fromPartial(base ?? {});
+  },
+
   fromPartial<I extends Exact<DeepPartial<SelectQuery>, I>>(object: I): SelectQuery {
     const message = createBaseSelectQuery();
     message.table = object.table ?? "";
@@ -1047,6 +1073,10 @@ export const InsertQuery = {
     message.table !== undefined && (obj.table = message.table);
     message.attributes !== undefined && (obj.attributes = message.attributes);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<InsertQuery>, I>>(base?: I): InsertQuery {
+    return InsertQuery.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<InsertQuery>, I>>(object: I): InsertQuery {
@@ -1121,6 +1151,10 @@ export const UpdateOperation = {
     message.type !== undefined && (obj.type = updateTypeToJSON(message.type));
     message.value !== undefined && (obj.value = message.value ? Value.toJSON(message.value) : undefined);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<UpdateOperation>, I>>(base?: I): UpdateOperation {
+    return UpdateOperation.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<UpdateOperation>, I>>(object: I): UpdateOperation {
@@ -1208,6 +1242,10 @@ export const UpdateQuery = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<UpdateQuery>, I>>(base?: I): UpdateQuery {
+    return UpdateQuery.fromPartial(base ?? {});
+  },
+
   fromPartial<I extends Exact<DeepPartial<UpdateQuery>, I>>(object: I): UpdateQuery {
     const message = createBaseUpdateQuery();
     message.table = object.table ?? "";
@@ -1281,6 +1319,10 @@ export const DeleteQuery = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<DeleteQuery>, I>>(base?: I): DeleteQuery {
+    return DeleteQuery.fromPartial(base ?? {});
+  },
+
   fromPartial<I extends Exact<DeepPartial<DeleteQuery>, I>>(object: I): DeleteQuery {
     const message = createBaseDeleteQuery();
     message.table = object.table ?? "";
@@ -1334,6 +1376,10 @@ export const ReadQuery = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<ReadQuery>, I>>(base?: I): ReadQuery {
+    return ReadQuery.fromPartial(base ?? {});
+  },
+
   fromPartial<I extends Exact<DeepPartial<ReadQuery>, I>>(object: I): ReadQuery {
     const message = createBaseReadQuery();
     message.queries = object.queries?.map((e) => SelectQuery.fromPartial(e)) || [];
@@ -1347,14 +1393,16 @@ function createBaseWriteQuery(): WriteQuery {
 
 export const WriteQuery = {
   encode(message: WriteQuery, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.kind?.$case === "insert") {
-      InsertQuery.encode(message.kind.insert, writer.uint32(10).fork()).ldelim();
-    }
-    if (message.kind?.$case === "update") {
-      UpdateQuery.encode(message.kind.update, writer.uint32(18).fork()).ldelim();
-    }
-    if (message.kind?.$case === "delete") {
-      DeleteQuery.encode(message.kind.delete, writer.uint32(26).fork()).ldelim();
+    switch (message.kind?.$case) {
+      case "insert":
+        InsertQuery.encode(message.kind.insert, writer.uint32(10).fork()).ldelim();
+        break;
+      case "update":
+        UpdateQuery.encode(message.kind.update, writer.uint32(18).fork()).ldelim();
+        break;
+      case "delete":
+        DeleteQuery.encode(message.kind.delete, writer.uint32(26).fork()).ldelim();
+        break;
     }
     return writer;
   },
@@ -1404,6 +1452,10 @@ export const WriteQuery = {
     message.kind?.$case === "delete" &&
       (obj.delete = message.kind?.delete ? DeleteQuery.toJSON(message.kind?.delete) : undefined);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<WriteQuery>, I>>(base?: I): WriteQuery {
+    return WriteQuery.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<WriteQuery>, I>>(object: I): WriteQuery {
@@ -1465,6 +1517,10 @@ export const BulkWriteQuery = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<BulkWriteQuery>, I>>(base?: I): BulkWriteQuery {
+    return BulkWriteQuery.fromPartial(base ?? {});
+  },
+
   fromPartial<I extends Exact<DeepPartial<BulkWriteQuery>, I>>(object: I): BulkWriteQuery {
     const message = createBaseBulkWriteQuery();
     message.queries = object.queries?.map((e) => WriteQuery.fromPartial(e)) || [];
@@ -1478,11 +1534,13 @@ function createBaseBulkQuery(): BulkQuery {
 
 export const BulkQuery = {
   encode(message: BulkQuery, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.kind?.$case === "read") {
-      ReadQuery.encode(message.kind.read, writer.uint32(10).fork()).ldelim();
-    }
-    if (message.kind?.$case === "bulkWriteQueries") {
-      WriteQuery.encode(message.kind.bulkWriteQueries, writer.uint32(18).fork()).ldelim();
+    switch (message.kind?.$case) {
+      case "read":
+        ReadQuery.encode(message.kind.read, writer.uint32(10).fork()).ldelim();
+        break;
+      case "bulkWriteQueries":
+        WriteQuery.encode(message.kind.bulkWriteQueries, writer.uint32(18).fork()).ldelim();
+        break;
     }
     return writer;
   },
@@ -1528,6 +1586,10 @@ export const BulkQuery = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<BulkQuery>, I>>(base?: I): BulkQuery {
+    return BulkQuery.fromPartial(base ?? {});
+  },
+
   fromPartial<I extends Exact<DeepPartial<BulkQuery>, I>>(object: I): BulkQuery {
     const message = createBaseBulkQuery();
     if (object.kind?.$case === "read" && object.kind?.read !== undefined && object.kind?.read !== null) {
@@ -1553,17 +1615,19 @@ function createBaseQuery(): Query {
 
 export const Query = {
   encode(message: Query, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.kind?.$case === "select") {
-      SelectQuery.encode(message.kind.select, writer.uint32(10).fork()).ldelim();
-    }
-    if (message.kind?.$case === "insert") {
-      InsertQuery.encode(message.kind.insert, writer.uint32(18).fork()).ldelim();
-    }
-    if (message.kind?.$case === "update") {
-      UpdateQuery.encode(message.kind.update, writer.uint32(26).fork()).ldelim();
-    }
-    if (message.kind?.$case === "delete") {
-      DeleteQuery.encode(message.kind.delete, writer.uint32(34).fork()).ldelim();
+    switch (message.kind?.$case) {
+      case "select":
+        SelectQuery.encode(message.kind.select, writer.uint32(10).fork()).ldelim();
+        break;
+      case "insert":
+        InsertQuery.encode(message.kind.insert, writer.uint32(18).fork()).ldelim();
+        break;
+      case "update":
+        UpdateQuery.encode(message.kind.update, writer.uint32(26).fork()).ldelim();
+        break;
+      case "delete":
+        DeleteQuery.encode(message.kind.delete, writer.uint32(34).fork()).ldelim();
+        break;
     }
     return writer;
   },
@@ -1620,6 +1684,10 @@ export const Query = {
     message.kind?.$case === "delete" &&
       (obj.delete = message.kind?.delete ? DeleteQuery.toJSON(message.kind?.delete) : undefined);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<Query>, I>>(base?: I): Query {
+    return Query.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<Query>, I>>(object: I): Query {
@@ -1694,6 +1762,10 @@ export const Response = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<Response>, I>>(base?: I): Response {
+    return Response.fromPartial(base ?? {});
+  },
+
   fromPartial<I extends Exact<DeepPartial<Response>, I>>(object: I): Response {
     const message = createBaseResponse();
     message.items = object.items?.map((e) => e) || [];
@@ -1708,11 +1780,13 @@ function createBaseQueryRequest(): QueryRequest {
 
 export const QueryRequest = {
   encode(message: QueryRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.kind?.$case === "query") {
-      Query.encode(message.kind.query, writer.uint32(10).fork()).ldelim();
-    }
-    if (message.kind?.$case === "queries") {
-      BulkQuery.encode(message.kind.queries, writer.uint32(18).fork()).ldelim();
+    switch (message.kind?.$case) {
+      case "query":
+        Query.encode(message.kind.query, writer.uint32(10).fork()).ldelim();
+        break;
+      case "queries":
+        BulkQuery.encode(message.kind.queries, writer.uint32(18).fork()).ldelim();
+        break;
     }
     return writer;
   },
@@ -1755,6 +1829,10 @@ export const QueryRequest = {
     message.kind?.$case === "queries" &&
       (obj.queries = message.kind?.queries ? BulkQuery.toJSON(message.kind?.queries) : undefined);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<QueryRequest>, I>>(base?: I): QueryRequest {
+    return QueryRequest.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<QueryRequest>, I>>(object: I): QueryRequest {
@@ -1809,6 +1887,10 @@ export const ResponseError = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<ResponseError>, I>>(base?: I): ResponseError {
+    return ResponseError.fromPartial(base ?? {});
+  },
+
   fromPartial<I extends Exact<DeepPartial<ResponseError>, I>>(object: I): ResponseError {
     const message = createBaseResponseError();
     message.message = object.message ?? "";
@@ -1822,11 +1904,13 @@ function createBaseQueryResponse(): QueryResponse {
 
 export const QueryResponse = {
   encode(message: QueryResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.kind?.$case === "response") {
-      Response.encode(message.kind.response, writer.uint32(10).fork()).ldelim();
-    }
-    if (message.kind?.$case === "error") {
-      ResponseError.encode(message.kind.error, writer.uint32(18).fork()).ldelim();
+    switch (message.kind?.$case) {
+      case "response":
+        Response.encode(message.kind.response, writer.uint32(10).fork()).ldelim();
+        break;
+      case "error":
+        ResponseError.encode(message.kind.error, writer.uint32(18).fork()).ldelim();
+        break;
     }
     return writer;
   },
@@ -1869,6 +1953,10 @@ export const QueryResponse = {
     message.kind?.$case === "error" &&
       (obj.error = message.kind?.error ? ResponseError.toJSON(message.kind?.error) : undefined);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<QueryResponse>, I>>(base?: I): QueryResponse {
+    return QueryResponse.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<QueryResponse>, I>>(object: I): QueryResponse {
