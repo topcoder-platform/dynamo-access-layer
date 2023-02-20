@@ -20,7 +20,7 @@
     "dotenv": "^16.0.3",
     "grpc-server-reflection": "^0.1.5",
     "lodash": "^4.17.21",
-    "topcoder-interface": "github:topcoder-platform/plat-interface-definition#v0.0.16"
+    "topcoder-interface": "github:topcoder-platform/plat-interface-definition#v0.0.17"
   },
   "volta": {
     "node": "18.14.1",
