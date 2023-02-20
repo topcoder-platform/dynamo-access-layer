@@ -1,4 +1,4 @@
-FROM node:18.11.0-alpine3.16 as ts-compile
+FROM node:18.14.1-alpine3.17 as ts-compile
 WORKDIR /usr/tc-dynamo-dal
 COPY package*.json ./
 COPY tsconfig*.json ./
@@ -6,7 +6,7 @@ RUN npm install
 COPY . ./
 RUN npm run build:app
 
-FROM node:18.11.0-alpine3.16 as ts-remove
+FROM node:18.14.1-alpine3.17 as ts-remove
 WORKDIR /usr/tc-dynamo-dal
 COPY --from=ts-compile /usr/tc-dynamo-dal/package*.json ./
 COPY --from=ts-compile /usr/tc-dynamo-dal/dist ./
