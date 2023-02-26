@@ -1,3 +1,4 @@
+import { AwsDynamoDbError } from "@aws-sdk/client-dynamodb";
 import { Query, QueryResponse, Response } from "../models/parti_ql";
 
 import dynamoHelper from "../helpers/DynamoHelper";
@@ -25,16 +26,29 @@ class QueryService {
       throw new Error("Invalid query");
     }
 
-    // TODO: Update "Response.items" to be `repeated PartiQL Value` and not google.protobuf.Struct
-    const response: Response = await dynamoHelper.executeQuery(sql);
-    const queryResponse: QueryResponse = {
-      kind: {
-        $case: "response",
-        response,
-      },
-    };
+    try {
+      const response: Response = await dynamoHelper.executeQuery(sql);
+      const queryResponse: QueryResponse = {
+        kind: {
+          $case: "response",
+          response,
+        },
+      };
 
-    return queryResponse;
+      return queryResponse;
+    } catch (err: AwsDynamoDbError | Error) {
+      console.error(`Error executing query: ${err.message}`);
+      const queryResponse: QueryResponse = {
+        kind: {
+          $case: "error",
+          error: {
+            message: err.message,
+          },
+        },
+      };
+
+      return queryResponse;
+    }
   }
 }
 
