@@ -1,4 +1,3 @@
-import { AwsDynamoDbError } from "@aws-sdk/client-dynamodb";
 import { Query, QueryResponse, Response } from "../models/parti_ql";
 
 import dynamoHelper from "../helpers/DynamoHelper";
@@ -36,13 +35,17 @@ class QueryService {
       };
 
       return queryResponse;
-    } catch (err: AwsDynamoDbError | Error) {
-      console.error(`Error executing query: ${err.message}`);
+    } catch (err: unknown) {
+      let errorMessage = "Error executing query";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      console.error(`Error executing query: ${errorMessage}`);
       const queryResponse: QueryResponse = {
         kind: {
           $case: "error",
           error: {
-            message: err.message,
+            message: errorMessage,
           },
         },
       };
