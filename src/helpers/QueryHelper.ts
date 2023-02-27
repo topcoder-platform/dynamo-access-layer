@@ -76,7 +76,11 @@ class QueryHelper {
       case "stringValue":
         return this.wrapQuotes(valueKind.stringValue);
       case "stringSetValue":
-        return "[" + valueKind.stringSetValue.values.map(this.wrapQuotes).join(",") + "]";
+        return (
+          "[" +
+          valueKind.stringSetValue.values.map(this.wrapQuotes).join(",") +
+          "]"
+        );
       case "boolean":
         return valueKind.boolean ? "true" : "false";
       case "listValue":

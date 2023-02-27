@@ -25,16 +25,33 @@ class QueryService {
       throw new Error("Invalid query");
     }
 
-    // TODO: Update "Response.items" to be `repeated PartiQL Value` and not google.protobuf.Struct
-    const response: Response = await dynamoHelper.executeQuery(sql);
-    const queryResponse: QueryResponse = {
-      kind: {
-        $case: "response",
-        response,
-      },
-    };
+    try {
+      const response: Response = await dynamoHelper.executeQuery(sql);
+      const queryResponse: QueryResponse = {
+        kind: {
+          $case: "response",
+          response,
+        },
+      };
 
-    return queryResponse;
+      return queryResponse;
+    } catch (err: unknown) {
+      let errorMessage = "Error executing query";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      console.error(`Error executing query: ${errorMessage}`);
+      const queryResponse: QueryResponse = {
+        kind: {
+          $case: "error",
+          error: {
+            message: errorMessage,
+          },
+        },
+      };
+
+      return queryResponse;
+    }
   }
 }
 
