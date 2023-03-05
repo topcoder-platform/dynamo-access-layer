@@ -87,7 +87,12 @@ class QueryHelper {
         return (
           "[" +
           valueKind.listValue
-            .map((v) => (typeof v === "string" ? `'${v}'` : v))
+            .map(
+              (v) =>
+                typeof v === "string"
+                  ? `'${v}'`
+                  : JSON.stringify(v).replaceAll('"', "'") // This might not handle strings with quotes correctly
+            )
             .join(",") +
           "]"
         );
@@ -123,7 +128,7 @@ class QueryHelper {
         )})`;
       }
       if (type === UpdateType.UPDATE_TYPE_VALUE) {
-        expression += `${attribute} = ${this.toValue(value!)}`;
+        expression += `${attribute} = ${this.toValue(value)}`;
       }
     }
 
