@@ -81,6 +81,8 @@ class QueryHelper {
           valueKind.stringSetValue.values.map(this.wrapQuotes).join(",") +
           "]"
         );
+      case "mapValue":
+        return JSON.stringify(valueKind.mapValue).replaceAll('"', "'");
       case "boolean":
         return valueKind.boolean ? "true" : "false";
       case "listValue":
@@ -128,6 +130,7 @@ class QueryHelper {
         )})`;
       }
       if (type === UpdateType.UPDATE_TYPE_VALUE) {
+        console.log("Value", JSON.stringify(value));
         expression += `${attribute} = ${this.toValue(value)}`;
       }
     }
