@@ -22,6 +22,7 @@ if (process.env.ENV === "local") {
 
 server.addService(PartiQLQueryService, new QueryServer());
 
+console.log(`gRPC:Server running at: ${GRPC_SERVER_HOST}:${GRPC_SERVER_PORT}`);
 server.bindAsync(
   `${GRPC_SERVER_HOST}:${GRPC_SERVER_PORT}`,
   ServerCredentials.createInsecure(),
