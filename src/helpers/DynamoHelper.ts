@@ -19,7 +19,12 @@ class DynamoHelper {
 
   public async executeQuery(input: ExecuteStatementInput): Promise<Response> {
     console.log(input.Statement);
-    console.log(JSON.stringify(input.Parameters, null, 2));
+
+    if (input.Parameters?.length == 0) {
+      delete input.Parameters;
+    } else {
+      console.log(JSON.stringify(input.Parameters, null, 2));
+    }
 
     const command = new ExecuteStatementCommand(input);
     const results = await this.client.send(command);
