@@ -1,6 +1,7 @@
 import {
   DynamoDBClient,
   ExecuteStatementCommand,
+  ExecuteStatementInput,
 } from "@aws-sdk/client-dynamodb";
 
 import { unmarshall } from "@aws-sdk/util-dynamodb";
@@ -16,21 +17,50 @@ class DynamoHelper {
     });
   }
 
-  public async executeQuery(statement: string): Promise<Response> {
-    console.log(statement);
+  public async executeQuery(input: ExecuteStatementInput): Promise<Response> {
+    console.log(input.Statement);
 
-    const command = new ExecuteStatementCommand({
-      Statement: statement,
-      // ConsistentRead: false, // TODO: Do consistent reads when not using Global Secondary Indexes
-      ReturnConsumedCapacity: "TOTAL",
-    });
+    if (input.Parameters?.length == 0) {
+      delete input.Parameters;
+    } else {
+      console.log(JSON.stringify(input.Parameters, null, 2));
+    }
 
+    const command = new ExecuteStatementCommand(input);
     const results = await this.client.send(command);
 
     return {
-      items: results.Items?.map((item) => unmarshall(item)) || [],
+      items:
+        results.Items?.map((item) => {
+          const unmarshalledItem = unmarshall(item);
+          const keys = Object.keys(unmarshalledItem);
+
+          for (const key of keys) {
+            if (unmarshalledItem[key] instanceof Set) {
+              unmarshalledItem[key] = this.setToArray(unmarshalledItem[key]);
+            }
+          }
+
+          return unmarshalledItem;
+        }) || [],
       nextToken: results.NextToken,
     };
+  }
+
+  private setToArray<T>(set: Set<T>): T[] {
+    const arr: T[] = [];
+
+    for (const item of set) {
+      try {
+        if (typeof item === "string") {
+          arr.push(JSON.parse(item));
+        }
+      } catch (err) {
+        arr.push(item);
+      }
+    }
+
+    return arr;
   }
 }
 

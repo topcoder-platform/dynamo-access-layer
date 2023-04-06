@@ -2,31 +2,44 @@ import { Query, QueryResponse, Response } from "../models/parti_ql";
 
 import dynamoHelper from "../helpers/DynamoHelper";
 import queryHelper from "../helpers/QueryHelper";
+import { ExecuteStatementInput } from "@aws-sdk/client-dynamodb";
 
 class QueryService {
   public async query(query: Query): Promise<QueryResponse> {
-    let sql: string | null = null;
+    let statementInput: ExecuteStatementInput | null = null;
+
     const queryKind = query.kind;
     switch (queryKind?.$case) {
       case "select":
-        sql = queryHelper.getSelectQuery(queryKind.select);
+        statementInput = queryHelper.getSelectQuery(queryKind.select);
         break;
       case "insert":
-        sql = queryHelper.getInsertQuery(queryKind.insert);
+        statementInput = queryHelper.getInsertQuery(queryKind.insert);
         break;
       case "update":
-        sql = queryHelper.getUpdateQuery(queryKind.update);
+        statementInput = queryHelper.getUpdateQuery(queryKind.update);
         break;
       case "delete":
-        sql = queryHelper.getDeleteQuery(queryKind.delete);
+        statementInput = queryHelper.getDeleteQuery(queryKind.delete);
     }
 
-    if (!sql) {
-      throw new Error("Invalid query");
+    if (statementInput == null) {
+      const queryResponse: QueryResponse = {
+        kind: {
+          $case: "error",
+          error: {
+            message: "Invalid query",
+          },
+        },
+      };
+
+      return queryResponse;
     }
 
     try {
-      const response: Response = await dynamoHelper.executeQuery(sql);
+      const response: Response = await dynamoHelper.executeQuery(
+        statementInput!
+      );
       const queryResponse: QueryResponse = {
         kind: {
           $case: "response",
