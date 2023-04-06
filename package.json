@@ -10,7 +10,7 @@
     "start": "ts-node-dev --respawn --transpile-only src/app.ts"
   },
   "keywords": [],
-  "author": "Rakib Ansary",
+  "author": "Rakib Ansary <rakibansary@topcoder.com>",
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.183.0",
