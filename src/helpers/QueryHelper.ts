@@ -79,7 +79,7 @@ class QueryHelper {
     return {
       Statement: statement,
       Parameters: [
-        ...updates.filter((update) => update.type !== 3).map((update) => this.toDynamoDBAttribute(update.value!)),
+        ...updates.filter((update) => update.type !== UpdateType.UPDATE_TYPE_SET_DELETE).map((update) => this.toDynamoDBAttribute(update.value!)),
         ...filters.map((filter) => this.toDynamoDBAttribute(filter.value!)),
       ],
     };
