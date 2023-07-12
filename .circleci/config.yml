@@ -28,8 +28,14 @@ jobs:
           rm -f awsenvconf
           docker build -t ${SERVICE_NAME}:${CIRCLE_SHA1} .
     - run:
-        name: "Set AWS environment variables"
+        name: "Set ECR_ENV based on event type"
         command: |
+          if [ "${CIRCLE_PULL_REQUEST}" != "" ]; then
+            export ECR_ENV="DEV"
+          else
+            export ECR_ENV="PROD"
+          fi
+          echo "Using ECR Environment: ${ECR_ENV}"
           ./awsconfiguration.sh ${ECR_ENV}
     - run:
         name: "Publish docker image"

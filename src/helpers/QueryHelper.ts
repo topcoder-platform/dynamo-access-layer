@@ -75,11 +75,11 @@ class QueryHelper {
       .join(" ")} WHERE ${filters
       .map((filter) => this.toFilterClause(filter))
       .join(" AND ")}${this.toReturnExpression(returnValue)}`;
-
+    
     return {
       Statement: statement,
       Parameters: [
-        ...updates.map((update) => this.toDynamoDBAttribute(update.value!)),
+        ...updates.filter((update) => update.type !== UpdateType.UPDATE_TYPE_SET_DELETE).map((update) => this.toDynamoDBAttribute(update.value!)),
         ...filters.map((filter) => this.toDynamoDBAttribute(filter.value!)),
       ],
     };
@@ -179,7 +179,7 @@ class QueryHelper {
 
     if (action === UpdateAction.UPDATE_ACTION_REMOVE) {
       expression += "REMOVE ";
-      expression = `${expression}${attribute}`;
+      expression = `${expression}${attributeName}`;
     }
 
     return expression;
