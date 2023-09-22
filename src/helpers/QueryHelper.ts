@@ -166,22 +166,22 @@ class QueryHelper {
       expression += "SET ";
 
       if (type === UpdateType.UPDATE_TYPE_LIST_APPEND) {
-        expression += `${attributeName} = list_append(${attributeName}, ?)`;
+        expression += `"${attributeName}" = list_append("${attributeName}", ?)`;
       }
       if (type === UpdateType.UPDATE_TYPE_SET_ADD) {
-        expression += `${attributeName} = set_add(${attributeName}, ?)`;
+        expression += `"${attributeName}" = set_add("${attributeName}", ?)`;
       }
       if (type === UpdateType.UPDATE_TYPE_SET_DELETE) {
-        expression += `${attributeName} = set_delete(${attributeName}, ?)`;
+        expression += `"${attributeName}" = set_delete("${attributeName}", ?)`;
       }
       if (type === UpdateType.UPDATE_TYPE_VALUE) {
-        expression += `${attributeName} = ?`;
+        expression += `"${attributeName}" = ?`;
       }
     }
 
     if (action === UpdateAction.UPDATE_ACTION_REMOVE) {
       expression += "REMOVE ";
-      expression = `${expression}${attributeName}`;
+      expression = `${expression}"${attributeName}"`;
     }
 
     return expression;
