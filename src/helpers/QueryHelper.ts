@@ -20,7 +20,7 @@ class QueryHelper {
   public getSelectQuery(query: SelectQuery): ExecuteStatementInput {
     const { table, index, attributes, filters } = query;
 
-    const statement = `SELECT ${attributes.join(",")} FROM ${
+    const statement = `SELECT "${attributes.join('","')}" FROM ${
       index == null || index.trim().length == 0
         ? table
         : `"${table}"."${index}"`
@@ -75,11 +75,13 @@ class QueryHelper {
       .join(" ")} WHERE ${filters
       .map((filter) => this.toFilterClause(filter))
       .join(" AND ")}${this.toReturnExpression(returnValue)}`;
-    
+
     return {
       Statement: statement,
       Parameters: [
-        ...updates.filter((update) => update.type !== UpdateType.UPDATE_TYPE_SET_DELETE).map((update) => this.toDynamoDBAttribute(update.value!)),
+        ...updates
+          .filter((update) => update.type !== UpdateType.UPDATE_TYPE_SET_DELETE)
+          .map((update) => this.toDynamoDBAttribute(update.value!)),
         ...filters.map((filter) => this.toDynamoDBAttribute(filter.value!)),
       ],
     };
@@ -164,22 +166,22 @@ class QueryHelper {
       expression += "SET ";
 
       if (type === UpdateType.UPDATE_TYPE_LIST_APPEND) {
-        expression += `${attributeName} = list_append(${attributeName}, ?)`;
+        expression += `"${attributeName}" = list_append("${attributeName}", ?)`;
       }
       if (type === UpdateType.UPDATE_TYPE_SET_ADD) {
-        expression += `${attributeName} = set_add(${attributeName}, ?)`;
+        expression += `"${attributeName}" = set_add("${attributeName}", ?)`;
       }
       if (type === UpdateType.UPDATE_TYPE_SET_DELETE) {
-        expression += `${attributeName} = set_delete(${attributeName}, ?)`;
+        expression += `"${attributeName}" = set_delete("${attributeName}", ?)`;
       }
       if (type === UpdateType.UPDATE_TYPE_VALUE) {
-        expression += `${attributeName} = ?`;
+        expression += `"${attributeName}" = ?`;
       }
     }
 
     if (action === UpdateAction.UPDATE_ACTION_REMOVE) {
       expression += "REMOVE ";
-      expression = `${expression}${attributeName}`;
+      expression = `${expression}"${attributeName}"`;
     }
 
     return expression;
