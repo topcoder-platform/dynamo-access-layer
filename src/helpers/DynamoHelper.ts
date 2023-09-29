@@ -23,7 +23,7 @@ class DynamoHelper {
     if (input.Parameters?.length == 0) {
       delete input.Parameters;
     } else {
-      console.log(JSON.stringify(input.Parameters, null, 2));
+      console.log(JSON.stringify(input.Parameters));
     }
 
     const command = new ExecuteStatementCommand(input);
