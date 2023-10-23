@@ -920,10 +920,10 @@
     "@smithy/types" "^2.4.0"
     tslib "^2.5.0"
 
-"@topcoder-framework/lib-common@^0.22.1-PLAT-3491.5":
-  version "0.22.1-PLAT-3491.5"
-  resolved "https://topcoder-409275337247.d.codeartifact.us-east-1.amazonaws.com/npm/topcoder-framework/@topcoder-framework/lib-common/-/lib-common-0.22.1-PLAT-3491.5.tgz#9f188c94499cd7c78e0dd64db182623c71bc7d29"
-  integrity sha512-IVvK3traVHLhG9jxRqUcPLrheuv5jUS+VMkwh0IN1KK3rHYkf82oL7OqX8cCb5hKQc9Ujr546q969NcYjgOOxw==
+"@topcoder-framework/lib-common@0.22.1-PLAT-3491.6":
+  version "0.22.1-PLAT-3491.6"
+  resolved "https://topcoder-409275337247.d.codeartifact.us-east-1.amazonaws.com/npm/topcoder-framework/@topcoder-framework/lib-common/-/lib-common-0.22.1-PLAT-3491.6.tgz#5245a8eb61f9b05f88a196a074a93b488f4c74b3"
+  integrity sha512-1ZZoX3en9aBFLD8Q/6H075x2WO9oscpBUZWulMjiQd6Ify44IDCOQ7fHIRQTf52GmdEZjeULzUCs20qYywLU6w==
   dependencies:
     "@grpc/grpc-js" "^1.8.0"
     rimraf "^3.0.2"
