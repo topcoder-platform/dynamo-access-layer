@@ -1,4 +1,4 @@
-FROM node:18.14.1-alpine3.17 as ts-compile
+FROM node:20.8.0-alpine3.17 AS ts-compile
 WORKDIR /usr/tc-dynamo-dal
 COPY yarn*.lock ./
 COPY package*.json ./
