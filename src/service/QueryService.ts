@@ -6,6 +6,7 @@ import { ExecuteStatementInput } from "@aws-sdk/client-dynamodb";
 
 class QueryService {
   public async query(query: Query): Promise<QueryResponse> {
+    console.log("Incoming query", query);
     let statementInput: ExecuteStatementInput | null = null;
 
     const queryKind = query.kind;
