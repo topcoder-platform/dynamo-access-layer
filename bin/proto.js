@@ -5,7 +5,7 @@ const { execSync } = require("child_process");
 
 const PROTO_DIR = path.join(
   __dirname,
-  "../node_modules/topcoder-interface/data-access-layer/nosql"
+  "../node_modules/topcoder-proto-registry/data-access-layer/nosql"
 );
 
 const PROTO_REFLECTIONS = path.join(__dirname, "../reflections/reflection.bin");

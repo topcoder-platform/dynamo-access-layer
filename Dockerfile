@@ -1,4 +1,4 @@
-FROM node:18.14.1-alpine3.17 as ts-compile
+FROM node:20.8.0-alpine3.17 AS ts-compile
 WORKDIR /usr/tc-dynamo-dal
 COPY yarn*.lock ./
 COPY package*.json ./
@@ -8,7 +8,7 @@ RUN yarn install --frozen-lockfile --production=false
 COPY . ./
 RUN yarn build:app
 
-FROM node:18.14.1-alpine3.17 as ts-remove
+FROM node:20.8.0-alpine3.17 AS ts-remove
 WORKDIR /usr/tc-dynamo-dal
 COPY --from=ts-compile /usr/tc-dynamo-dal/yarn*.lock ./
 COPY --from=ts-compile /usr/tc-dynamo-dal/package*.json ./
@@ -16,7 +16,7 @@ COPY --from=ts-compile /usr/tc-dynamo-dal/dist ./
 COPY --from=ts-compile /usr/tc-dynamo-dal/.npmrc ./
 RUN yarn install --frozen-lockfile --production=false
 
-FROM gcr.io/distroless/nodejs:18
+FROM gcr.io/distroless/nodejs20-debian12
 WORKDIR /usr/tc-dynamo-dal
 COPY --from=ts-remove /usr/tc-dynamo-dal ./
 USER 1000
