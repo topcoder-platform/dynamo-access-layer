@@ -38,6 +38,7 @@ class QueryHelper {
 
     return {
       Statement: statement,
+      
       Parameters: parameters,
     };
   }
