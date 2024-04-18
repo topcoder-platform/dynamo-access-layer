@@ -12,3 +12,7 @@ This is a simple gRPC service that implements the [NoSQL](https://github.com/top
 # Note
 
 This is in the early stages of development and while it is functional and the interfaces are fully defined, it is not yet ready for production use.
+
+# TODO
+
+Add deployment information and documentation 
